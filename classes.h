@@ -8,6 +8,7 @@ class item{
         int id;
         float x;
         float y;
+        float z;
         int node1;
         int node2;
         int node3;
