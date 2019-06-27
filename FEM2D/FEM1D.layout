@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="classes.h" open="1" top="0" tabpos="3">
+		<Cursor position="3038" topLine="0" />
+	</File>
+	<File name="main.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="168" topLine="0" />
+	</File>
+	<File name="math_tools.h" open="1" top="0" tabpos="5">
+		<Cursor position="898" topLine="0" />
+	</File>
+	<File name="sel.h" open="1" top="0" tabpos="4">
+		<Cursor position="2708" topLine="64" />
+	</File>
+	<File name="tools.h" open="1" top="0" tabpos="2">
+		<Cursor position="1739" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>
