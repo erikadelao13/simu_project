@@ -135,8 +135,8 @@ class mesh{
         condition *dirichlet_list;
         //condition *neumann_list;
     public:
-        void setParameters(float k,float Q){
-            parameters[THERMAL_CONDUCTIVITY]=k;
+        void setParameters(float k, float Th, float Tc, float L,float Q){
+            parameters[THERMAL_CONDUCTIVITY]=k,Th,Tc,L;
             parameters[HEAT_SOURCE]=Q;
         }
         void setSizes(int nnodes,int neltos,int ndirich){

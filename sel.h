@@ -103,8 +103,10 @@ void calculateProductNNt(Matrix &NNt){
 
 
 Matrix createLocalK(int element,mesh &m){
-    float D,Ae,k = m.getParameter(THERMAL_CONDUCTIVITY); //k = 0.5
+    //float D,Ae,k = m.getParameter(THERMAL_CONDUCTIVITY); //k = 0.5
     Matrix K,A,NNt,Bt,At;
+    float k,Th,Tc,L = m.getParameter(THERMAL_CONDUCTIVITY); 
+
 
     D = calculateLocalD(element,m); //elemento actual y el objeto mesh det
     Ae = calculateLocalArea(element,m); //Area del elemento
@@ -112,13 +114,13 @@ Matrix createLocalK(int element,mesh &m){
     zeroes(A,2); // da formato 0.0 a los valores de la matriz de area  matriz 2x2
     zeroes(B,2,3);  // da formato de 0.0 a B, matriz 2x3
     //calculateLocalA(element,A,m); //elemento A
-    calculateProductNNt(NNt); //multiplicacion de NNt
-    transpose(A,At); //A transpuesta. |y3-y1 x1-x3|
+    //calculateProductNNt(NNt); //multiplicacion de NNt
+    //transpose(A,At); //A transpuesta. |y3-y1 x1-x3|
 									//|y1-y2 x2-x1|
-    transpose(B,Bt); //B transpuesta |y3-y1 y1-y2|
+    //transpose(B,Bt); //B transpuesta |y3-y1 y1-y2|
     							   //|x1-x3 x2-x1|
 
-    productRealMatrix(k*Ae/D,productMatrixMatrix(Bt,productMatrixMatrix(At,productMatrixMatrix(A,B,2,2,3),2,2,3),3,2,3),K);
+    productRealMatrix(calculateLocalJ(element,m)*2*k*(Th-Tc/L),calculateProductNNt(NNt),K);
     //k minuscula es 0.5, K mayuscula es una matriz vacia por el momento, ahi se almacenara el resultado de la multiplicacion
 
     return K;
@@ -184,14 +186,10 @@ void assemblyK(element e,Matrix localK,Matrix &K){
     K.at(index3).at(index2) += localK.at(2).at(1);
     K.at(index3).at(index3) += localK.at(2).at(2);
     K.at(index3).at(index4) += localK.at(2).at(3);
-
     K.at(index4).at(index1) += localK.at(3).at(0);
     K.at(index4).at(index2) += localK.at(3).at(1);
     K.at(index4).at(index3) += localK.at(3).at(2);
     K.at(index4).at(index4) += localK.at(3).at(3);
-    
-
-
 }
 
 void assemblyb(element e,Vector localb,Vector &b){
