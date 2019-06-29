@@ -184,6 +184,14 @@ void assemblyK(element e,Matrix localK,Matrix &K){
     K.at(index3).at(index2) += localK.at(2).at(1);
     K.at(index3).at(index3) += localK.at(2).at(2);
     K.at(index3).at(index4) += localK.at(2).at(3);
+
+    K.at(index4).at(index1) += localK.at(3).at(0);
+    K.at(index4).at(index2) += localK.at(3).at(1);
+    K.at(index4).at(index3) += localK.at(3).at(2);
+    K.at(index4).at(index4) += localK.at(3).at(3);
+    
+
+
 }
 
 void assemblyb(element e,Vector localb,Vector &b){
@@ -206,12 +214,12 @@ void ensamblaje(mesh &m,vector<Matrix> &localKs,vector<Vector> &localbs,Matrix &
     }
 }
 
-void applyNeumann(mesh &m,Vector &b){
-    for(int i=0;i<m.getSize(NEUMANN);i++){
-        condition c = m.getCondition(i,NEUMANN);
-        b.at(c.getNode1()-1) += c.getValue();
-    }
-}
+// void applyNeumann(mesh &m,Vector &b){
+//     for(int i=0;i<m.getSize(NEUMANN);i++){
+//         condition c = m.getCondition(i,NEUMANN);
+//         b.at(c.getNode1()-1) += c.getValue();
+//     }
+// }
 
 void applyDirichlet(mesh &m,Matrix &K,Vector &b){
     for(int i=0;i<m.getSize(DIRICHLET);i++){

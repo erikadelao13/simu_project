@@ -58,8 +58,8 @@ void leerMallayCondiciones(mesh &m,char *filename){ //nombre del proyecto en git
     char inputfilename[150];
     ifstream file;
     float k,Q; //
-    int nnodes,neltos,ndirich,nneu; //numero de elementos de cada uno, dependen del archivo
-
+    //int nnodes,neltos,ndirich,nneu; //numero de elementos de cada uno, dependen del archivo
+    int nnodes,neltos,ndirich;
     /*do{
         cout << "Ingrese el nombre del archivo que contiene los datos de la malla: ";
         cin >> filename;
@@ -72,19 +72,21 @@ void leerMallayCondiciones(mesh &m,char *filename){ //nombre del proyecto en git
 
     file >> k >> Q; //primero las condiciones de K y Q, son la primer linea del archivo prueb2.dat
     //cout << "k y Q: "<<k<<" y "<<Q<<"\n";
-    file >> nnodes >> neltos >> ndirich >> nneu; //segunda linea de condiciones, son los 4 datos que contienen el tama;o de 
+    //file >> nnodes >> neltos >> ndirich >> nneu; //segunda linea de condiciones, son los 4 datos que contienen el tama;o de 
+    file >> nnodes >> neltos >> ndirich;
     //las coordenadas(son 37) los elementos(son 52) 6 condiciones de dirichlet y 6 de neumann
     //cout << "sizes: "<<nnodes<<" y "<<neltos<<" y "<<ndirich<<" y "<<nneu<<"\n";
 
     m.setParameters(k,Q); // m es la instancia de una clase, que que se llama mesh, aqui envio [0.5] y [15] y en esa clase se guardan como arreglos
-    m.setSizes(nnodes,neltos,ndirich,nneu); // en la clase mesh hay un arreglo llamado sizes con tama;o 4, 
+    //m.setSizes(nnodes,neltos,ndirich,nneu); 
+    m.setSizes(nnodes,neltos,ndirich); // en la clase mesh hay un arreglo llamado sizes con tama;o 4, 
 	//perfecto para guardar los tama;os de las condiciones
     m.createData(); // me crea 5 arreglos de clase: element, nod, 2 tipo condition y uno tipo int para los indices de dirichlet
 
     obtenerDatos(file,SINGLELINE,nnodes,INT_FLOAT_FLOAT,m.getNodes()); //leo el archivo desde la linea 5 a la 41
     obtenerDatos(file,DOUBLELINE,neltos,INT_INT_INT_INT,m.getElements()); //leo archivo desde la 45 a la 96
     obtenerDatos(file,DOUBLELINE,ndirich,INT_FLOAT,m.getDirichlet()); // leo archivo de la linea 100 a la 105
-    obtenerDatos(file,DOUBLELINE,nneu,INT_FLOAT,m.getNeumann()); // leo archivo de la linea 109 a la 114
+    //obtenerDatos(file,DOUBLELINE,nneu,INT_FLOAT,m.getNeumann()); // leo archivo de la linea 109 a la 114
 
     file.close();
 

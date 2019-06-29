@@ -1,7 +1,7 @@
 enum lines {NOLINE,SINGLELINE,DOUBLELINE};
 enum modes {NOMODE,INT_FLOAT,INT_FLOAT_FLOAT,INT_INT_INT_INT};
 enum parameters {THERMAL_CONDUCTIVITY,HEAT_SOURCE};
-enum sizes {NODES,ELEMENTS,DIRICHLET,NEUMANN};
+enum sizes {NODES,ELEMENTS,DIRICHLET};
 
 class item{
     protected:
@@ -133,17 +133,17 @@ class mesh{
         element *element_list;
         int *indices_dirich;
         condition *dirichlet_list;
-        condition *neumann_list;
+        //condition *neumann_list;
     public:
         void setParameters(float k,float Q){
             parameters[THERMAL_CONDUCTIVITY]=k;
             parameters[HEAT_SOURCE]=Q;
         }
-        void setSizes(int nnodes,int neltos,int ndirich,int nneu){
+        void setSizes(int nnodes,int neltos,int ndirich){
             sizes[NODES] = nnodes;
             sizes[ELEMENTS] = neltos;
             sizes[DIRICHLET] = ndirich;
-            sizes[NEUMANN] = nneu;
+            //sizes[NEUMANN] = nneu;
         }
         int getSize(int s){
             return sizes[s];
@@ -156,7 +156,7 @@ class mesh{
             element_list = new element[sizes[ELEMENTS]];
             indices_dirich = new int[DIRICHLET];
             dirichlet_list = new condition[sizes[DIRICHLET]];
-            neumann_list = new condition[sizes[NEUMANN]];
+           // neumann_list = new condition[sizes[NEUMANN]];
         }
         node* getNodes(){
             return node_list;
@@ -170,9 +170,9 @@ class mesh{
         condition* getDirichlet(){
             return dirichlet_list;
         }
-        condition* getNeumann(){
-            return neumann_list;
-        }
+        // condition* getNeumann(){
+        //     return neumann_list;
+        // }
         node getNode(int i){
             return node_list[i];
         }

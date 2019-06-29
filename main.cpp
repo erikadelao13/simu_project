@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) //argc es la cantidad de argumentos que se puse
     //cout << K.size() << " - "<<K.at(0).size()<<"\n";
     //cout << b.size() <<"\n";
 
-    applyNeumann(m,b);
+    //applyNeumann(m,b);
     showMatrix(K); 
     showVector(b);
     cout << "******************************\n";
