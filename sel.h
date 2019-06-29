@@ -80,24 +80,24 @@ float calculateLocalArea(int i,mesh m){
 /*void calculateB(Matrix &B){
     B.at(0).at(0) = -1; B.at(0).at(1) = 1; B.at(0).at(2) = 0; //|-1 1 0|
     B.at(1).at(0) = -1; B.at(1).at(1) = 0; B.at(1).at(2) = 1;// |-1 0 1|
-}*/ 
+}*/
 void calculateProductNNt(Matrix &NNt){
-    NNt.at(0).at(0) = 1/2; 
-    NNt.at(0).at(1) = -1/3; 
+    NNt.at(0).at(0) = 1/2;
+    NNt.at(0).at(1) = -1/3;
     NNt.at(0).at(2) = -1/3;
-    NNt.at(0).at(3) = -1/3; 
-    NNt.at(1).at(0) = -1/3; 
-    NNt.at(1).at(1) = 1/3; 
+    NNt.at(0).at(3) = -1/3;
+    NNt.at(1).at(0) = -1/3;
+    NNt.at(1).at(1) = 1/3;
     NNt.at(1).at(2) = 1/4;
     NNt.at(1).at(3) = 1/4;
-    NNt.at(2).at(0) = -1/3; 
-    NNt.at(2).at(1) = 1/4; 
+    NNt.at(2).at(0) = -1/3;
+    NNt.at(2).at(1) = 1/4;
     NNt.at(2).at(2) = 1/3;
     NNt.at(2).at(3) = 1/4;
-    NNt.at(3).at(0) = -1/3; 
-    NNt.at(3).at(1) = 1/4; 
+    NNt.at(3).at(0) = -1/3;
+    NNt.at(3).at(1) = 1/4;
     NNt.at(3).at(2) = 1/4;
-    NNt.at(3).at(3) = 1/3;           
+    NNt.at(3).at(3) = 1/3;
 }
 
 
@@ -105,11 +105,12 @@ void calculateProductNNt(Matrix &NNt){
 Matrix createLocalK(int element,mesh &m){
     //float D,Ae,k = m.getParameter(THERMAL_CONDUCTIVITY); //k = 0.5
     Matrix K,A,NNt,Bt,At;
-    float k,Th,Tc,L = m.getParameter(THERMAL_CONDUCTIVITY); 
+    float k,Th,Tc,L = m.getParameter(THERMAL_CONDUCTIVITY);
+    float Q = m.getParameter(HEAT_SOURCE),J;
+    J = calculateLocalJ(element,m);
 
-
-    D = calculateLocalD(element,m); //elemento actual y el objeto mesh det
-    Ae = calculateLocalArea(element,m); //Area del elemento
+    //D = calculateLocalD(element,m); //elemento actual y el objeto mesh det
+    //Ae = calculateLocalArea(element,m); //Area del elemento
 
     zeroes(A,2); // da formato 0.0 a los valores de la matriz de area  matriz 2x2
     zeroes(B,2,3);  // da formato de 0.0 a B, matriz 2x3
@@ -120,14 +121,14 @@ Matrix createLocalK(int element,mesh &m){
     //transpose(B,Bt); //B transpuesta |y3-y1 y1-y2|
     							   //|x1-x3 x2-x1|
 
-    productRealMatrix(calculateLocalJ(element,m)*2*k*(Th-Tc/L),calculateProductNNt(NNt),K);
+    productRealMatrix(J*2*k*(Th-Tc/L),calculateProductNNt(NNt),K);
     //k minuscula es 0.5, K mayuscula es una matriz vacia por el momento, ahi se almacenara el resultado de la multiplicacion
 
     return K;
 }
 
 float calculateLocalJ(int i,mesh m){
-    float J,a,b,c,d,k,f,g,h,i;
+    float J,a,b,c,d,k,f,g,h,l;
     element e = m.getElement(i);
     node n1 = m.getNode(e.getNode1());
     node n2 = m.getNode(e.getNode2());
@@ -143,7 +144,7 @@ float calculateLocalJ(int i,mesh m){
     g=n2.getZ()-n1.getZ();
     h=n3.getZ()-n1.getZ();
     i=n4.getZ()-n1.getZ();
-    J = a*((k*i) - (h*f)) - b*((d*i) - (g*f)) + c*((d*h) - (g*k));
+    J = a*((k*l) - (h*f)) - b*((d*l) - (g*f)) + c*((d*h) - (g*k));
     return J;
 }
 
@@ -212,12 +213,12 @@ void ensamblaje(mesh &m,vector<Matrix> &localKs,vector<Vector> &localbs,Matrix &
     }
 }
 
-// void applyNeumann(mesh &m,Vector &b){
-//     for(int i=0;i<m.getSize(NEUMANN);i++){
-//         condition c = m.getCondition(i,NEUMANN);
-//         b.at(c.getNode1()-1) += c.getValue();
-//     }
-// }
+void applyNeumann(mesh &m,Vector &b){
+    for(int i=0;i<m.getSize(NEUMANN);i++){
+         condition c = m.getCondition(i,NEUMANN);
+         b.at(c.getNode1()-1) += c.getValue();
+    }
+}
 
 void applyDirichlet(mesh &m,Matrix &K,Vector &b){
     for(int i=0;i<m.getSize(DIRICHLET);i++){

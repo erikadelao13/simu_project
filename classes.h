@@ -1,7 +1,7 @@
 enum lines {NOLINE,SINGLELINE,DOUBLELINE};
 enum modes {NOMODE,INT_FLOAT,INT_FLOAT_FLOAT,INT_INT_INT_INT};
 enum parameters {THERMAL_CONDUCTIVITY,HEAT_SOURCE};
-enum sizes {NODES,ELEMENTS,DIRICHLET};
+enum sizes {NODES,ELEMENTS,DIRICHLET,NEUMANN};
 
 class item{
     protected:
@@ -87,7 +87,7 @@ class item{
         }
 
         virtual void setValues(int a,float b,float c,float i,int d,int e,int f, int h, float g)=0; //d es node1, e es node2, f es node 3, h es node4, i es la coordenada z
-
+        //a=id,b=x,c=y,i=z,d=node1,e=node2,f=node3,h=node4,g=getvalue
 };
 
 class node: public item{
@@ -133,17 +133,17 @@ class mesh{
         element *element_list;
         int *indices_dirich;
         condition *dirichlet_list;
-        //condition *neumann_list;
+        condition *neumann_list;
     public:
         void setParameters(float k, float Th, float Tc, float L,float Q){
             parameters[THERMAL_CONDUCTIVITY]=k,Th,Tc,L;
             parameters[HEAT_SOURCE]=Q;
         }
-        void setSizes(int nnodes,int neltos,int ndirich){
+        void setSizes(int nnodes,int neltos,int ndirich,int nneu){
             sizes[NODES] = nnodes;
             sizes[ELEMENTS] = neltos;
             sizes[DIRICHLET] = ndirich;
-            //sizes[NEUMANN] = nneu;
+            sizes[NEUMANN] = nneu;
         }
         int getSize(int s){
             return sizes[s];
@@ -156,7 +156,7 @@ class mesh{
             element_list = new element[sizes[ELEMENTS]];
             indices_dirich = new int[DIRICHLET];
             dirichlet_list = new condition[sizes[DIRICHLET]];
-           // neumann_list = new condition[sizes[NEUMANN]];
+            neumann_list = new condition[sizes[NEUMANN]];
         }
         node* getNodes(){
             return node_list;
@@ -170,9 +170,9 @@ class mesh{
         condition* getDirichlet(){
             return dirichlet_list;
         }
-        // condition* getNeumann(){
-        //     return neumann_list;
-        // }
+        condition* getNeumann(){
+            return neumann_list;
+        }
         node getNode(int i){
             return node_list[i];
         }
