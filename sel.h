@@ -68,19 +68,21 @@ float calculateLocalArea(int i,mesh m){
     return A;
 }
 
-void calculateLocalA(int i,Matrix &A,mesh m){
+/*void calculateLocalA(int i,Matrix &A,mesh m){
     element e = m.getElement(i);
     node n1 = m.getNode(e.getNode1());
     node n2 = m.getNode(e.getNode2());
     node n3 = m.getNode(e.getNode3());
     A.at(0).at(0) = n3.getY()-n1.getY(); A.at(0).at(1) = n1.getY()-n2.getY(); //|y3-y1 y1-y2|
     A.at(1).at(0) = n1.getX()-n3.getX(); A.at(1).at(1) = n2.getX()-n1.getX(); //|x1-x3 x2-x1|
-}
+}*/
 
-void calculateB(Matrix &B){
+/*void calculateB(Matrix &B){
     B.at(0).at(0) = -1; B.at(0).at(1) = 1; B.at(0).at(2) = 0; //|-1 1 0|
     B.at(1).at(0) = -1; B.at(1).at(1) = 0; B.at(1).at(2) = 1;// |-1 0 1|
-}
+}*/
+
+
 
 Matrix createLocalK(int element,mesh &m){
     float D,Ae,k = m.getParameter(THERMAL_CONDUCTIVITY); //k = 0.5
@@ -91,8 +93,8 @@ Matrix createLocalK(int element,mesh &m){
 
     zeroes(A,2); // da formato 0.0 a los valores de la matriz de area  matriz 2x2
     zeroes(B,2,3);  // da formato de 0.0 a B, matriz 2x3
-    calculateLocalA(element,A,m); //elemento A
-    calculateB(B); //elemento B
+    //calculateLocalA(element,A,m); //elemento A
+    //calculateB(B); //elemento B
     transpose(A,At); //A transpuesta. |y3-y1 x1-x3|
 									//|y1-y2 x2-x1|
     transpose(B,Bt); //B transpuesta |y3-y1 y1-y2|
@@ -105,16 +107,23 @@ Matrix createLocalK(int element,mesh &m){
 }
 
 float calculateLocalJ(int i,mesh m){
-    float J,a,b,c,d;
+    float J,a,b,c,d,k,f,g,h,i;
     element e = m.getElement(i);
     node n1 = m.getNode(e.getNode1());
     node n2 = m.getNode(e.getNode2());
     node n3 = m.getNode(e.getNode3());
+    node n4 = m.getNode(e.getNode4());
 
-    a=n2.getX()-n1.getX();b=n3.getX()-n1.getX();
-    c=n2.getY()-n1.getY();d=n3.getY()-n1.getY();
-    J = a*d - b*c; //|x2-x1 x3-x1|
-				//	 |y2-y1 y3-y1|	
+    a=n2.getX()-n1.getX();
+    b=n3.getX()-n1.getX();
+    c=n4.getX()-n1.getX();
+    d=n2.getY()-n1.getY();
+    k=n3.getY()-n1.getY();
+    f=n4.getY()-n1.getY();
+    g=n2.getZ()-n1.getZ();
+    h=n3.getZ()-n1.getZ();
+    i=n4.getZ()-n1.getZ();
+    J = a*((k*i) - (h*f)) - b*((d*i) - (g*f)) + c*((d*h) - (g*k));
     return J;
 }
 
