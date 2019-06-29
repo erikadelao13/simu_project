@@ -174,10 +174,10 @@ void assemblyb(element e,Vector localb,Vector &b){
     int index3 = e.getNode3() - 1;
     int index4 = e.getNode4() - 1;
 
-    b.at(index1) += localb.at(0);
-    b.at(index2) += localb.at(1);
-    b.at(index3) += localb.at(2);
-    b.at(index4) += localb.at(3);
+    b.at(index1) += 0;
+    b.at(index2) += 0;
+    b.at(index3) += 0;
+    b.at(index4) += 0;
 }
 
 void ensamblaje(mesh &m,vector<Matrix> &localKs,vector<Vector> &localbs,Matrix &K,Vector &b){
