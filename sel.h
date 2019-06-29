@@ -82,22 +82,22 @@ float calculateLocalArea(int i,mesh m){
     B.at(1).at(0) = -1; B.at(1).at(1) = 0; B.at(1).at(2) = 1;// |-1 0 1|
 }*/ 
 void calculateProductNNt(Matrix &NNt){
-    B.at(0).at(0) = 1/2; 
-    B.at(0).at(1) = -1/3; 
-    B.at(0).at(2) = -1/3;
-    B.at(0).at(3) = -1/3; 
-    B.at(1).at(0) = -1/3; 
-    B.at(1).at(1) = 1/3; 
-    B.at(1).at(2) = 1/4;
-    B.at(1).at(3) = 1/4;
-    B.at(2).at(0) = -1/3; 
-    B.at(2).at(1) = 1/4; 
-    B.at(2).at(2) = 1/3;
-    B.at(2).at(3) = 1/4;
-    B.at(3).at(0) = -1/3; 
-    B.at(3).at(1) = 1/4; 
-    B.at(3).at(2) = 1/4;
-    B.at(3).at(3) = 1/3;           
+    NNt.at(0).at(0) = 1/2; 
+    NNt.at(0).at(1) = -1/3; 
+    NNt.at(0).at(2) = -1/3;
+    NNt.at(0).at(3) = -1/3; 
+    NNt.at(1).at(0) = -1/3; 
+    NNt.at(1).at(1) = 1/3; 
+    NNt.at(1).at(2) = 1/4;
+    NNt.at(1).at(3) = 1/4;
+    NNt.at(2).at(0) = -1/3; 
+    NNt.at(2).at(1) = 1/4; 
+    NNt.at(2).at(2) = 1/3;
+    NNt.at(2).at(3) = 1/4;
+    NNt.at(3).at(0) = -1/3; 
+    NNt.at(3).at(1) = 1/4; 
+    NNt.at(3).at(2) = 1/4;
+    NNt.at(3).at(3) = 1/3;           
 }
 
 
