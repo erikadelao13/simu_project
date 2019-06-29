@@ -80,13 +80,31 @@ float calculateLocalArea(int i,mesh m){
 /*void calculateB(Matrix &B){
     B.at(0).at(0) = -1; B.at(0).at(1) = 1; B.at(0).at(2) = 0; //|-1 1 0|
     B.at(1).at(0) = -1; B.at(1).at(1) = 0; B.at(1).at(2) = 1;// |-1 0 1|
-}*/
+}*/ 
+void calculateProductNNt(Matrix &NNt){
+    B.at(0).at(0) = 1/2; 
+    B.at(0).at(1) = -1/3; 
+    B.at(0).at(2) = -1/3;
+    B.at(0).at(3) = -1/3; 
+    B.at(1).at(0) = -1/3; 
+    B.at(1).at(1) = 1/3; 
+    B.at(1).at(2) = 1/4;
+    B.at(1).at(3) = 1/4;
+    B.at(2).at(0) = -1/3; 
+    B.at(2).at(1) = 1/4; 
+    B.at(2).at(2) = 1/3;
+    B.at(2).at(3) = 1/4;
+    B.at(3).at(0) = -1/3; 
+    B.at(3).at(1) = 1/4; 
+    B.at(3).at(2) = 1/4;
+    B.at(3).at(3) = 1/3;           
+}
 
 
 
 Matrix createLocalK(int element,mesh &m){
     float D,Ae,k = m.getParameter(THERMAL_CONDUCTIVITY); //k = 0.5
-    Matrix K,A,B,Bt,At;
+    Matrix K,A,NNt,Bt,At;
 
     D = calculateLocalD(element,m); //elemento actual y el objeto mesh det
     Ae = calculateLocalArea(element,m); //Area del elemento
@@ -94,7 +112,7 @@ Matrix createLocalK(int element,mesh &m){
     zeroes(A,2); // da formato 0.0 a los valores de la matriz de area  matriz 2x2
     zeroes(B,2,3);  // da formato de 0.0 a B, matriz 2x3
     //calculateLocalA(element,A,m); //elemento A
-    //calculateB(B); //elemento B
+    calculateProductNNt(NNt); //multiplicacion de NNt
     transpose(A,At); //A transpuesta. |y3-y1 x1-x3|
 									//|y1-y2 x2-x1|
     transpose(B,Bt); //B transpuesta |y3-y1 y1-y2|
