@@ -101,7 +101,7 @@ Matrix createLocalK(int element,mesh &m){
     							   //|x1-x3 x2-x1|
 
     productRealMatrix(k*Ae/D,productMatrixMatrix(Bt,productMatrixMatrix(At,productMatrixMatrix(A,B,2,2,3),2,2,3),3,2,3),K);
-    //k minuscula es 0.5, K mayuscula es una matriz vacia por el momento, ahi se almacenara el resultado de la multiplicacion	
+    //k minuscula es 0.5, K mayuscula es una matriz vacia por el momento, ahi se almacenara el resultado de la multiplicacion
 
     return K;
 }
@@ -127,7 +127,7 @@ float calculateLocalJ(int i,mesh m){
     return J;
 }
 
-Vector createLocalb(int element,mesh &m){
+/* Vector createLocalb(int element,mesh &m){
     Vector b;
 
     float Q = m.getParameter(HEAT_SOURCE),J;
@@ -139,12 +139,12 @@ Vector createLocalb(int element,mesh &m){
     //					 [0.5]
 
     return b;
-}
+} */
 
 void crearSistemasLocales(mesh &m,vector<Matrix> &localKs,vector<Vector> &localbs){
     for(int i=0;i<m.getSize(ELEMENTS);i++){ //52 elementos
         localKs.push_back(createLocalK(i,m));//K local
-        localbs.push_back(createLocalb(i,m)); //b Local
+        //localbs.push_back(createLocalb(i,m)); //b Local
     }
 }
 
@@ -157,7 +157,7 @@ void assemblyK(element e,Matrix localK,Matrix &K){
     K.at(index1).at(index1) += localK.at(0).at(0);
     K.at(index1).at(index2) += localK.at(0).at(1);
     K.at(index1).at(index3) += localK.at(0).at(2);
-    k.at(index1).at(index4) += localK.at(0).at(3);
+    K.at(index1).at(index4) += localK.at(0).at(3);
     K.at(index2).at(index1) += localK.at(1).at(0);
     K.at(index2).at(index2) += localK.at(1).at(1);
     K.at(index2).at(index3) += localK.at(1).at(2);
