@@ -57,7 +57,7 @@ void addExtension(char *newfilename,char *filename,char *extension){
 void leerMallayCondiciones(mesh &m,char *filename){ //nombre del proyecto en github, el objeto mesh, 
     char inputfilename[150];
     ifstream file;
-    float k,Q; //
+    float k, Th, Tc, L; //
     //int nnodes,neltos,ndirich,nneu; //numero de elementos de cada uno, dependen del archivo
     int nnodes,neltos,ndirich;
     /*do{
@@ -70,7 +70,7 @@ void leerMallayCondiciones(mesh &m,char *filename){ //nombre del proyecto en git
     addExtension(inputfilename,filename,".dat"); //al nombre del proyecto en gid se le a;ade el punto dat
     file.open(inputfilename);
 
-    file >> k >> Q; //primero las condiciones de K y Q, son la primer linea del archivo prueb2.dat
+    file >> k >> Th >> Tc >> L; //primero las condiciones de K y Q, son la primer linea del archivo prueb2.dat
     //cout << "k y Q: "<<k<<" y "<<Q<<"\n";
     //file >> nnodes >> neltos >> ndirich >> nneu; //segunda linea de condiciones, son los 4 datos que contienen el tama;o de 
     file >> nnodes >> neltos >> ndirich;
